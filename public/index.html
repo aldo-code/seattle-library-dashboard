@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Préstamos Biblioteca Seattle</title>
+  <meta name="description" content="Dashboard de préstamos físicos y digitales de la Biblioteca Pública de Seattle, 2006–2025.">
+  <link rel="stylesheet" href="index.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.35.2/plotly.min.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Saltar al contenido</a>
+
+  <header class="site-header">
+    <div class="wrap">
+      <p class="eyebrow">Coding Agents for Data Science · Sesión 3</p>
+      <h1>Préstamos de la Biblioteca Pública de Seattle, 2006–2025</h1>
+      <p class="lede">Cómo pasó la biblioteca de prestar sobre todo libros físicos a prestar sobre todo libros electrónicos y audiolibros.</p>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+    <section aria-labelledby="kpi-heading">
+      <h2 id="kpi-heading" class="visually-hidden">Cifras clave</h2>
+      <div class="kpis" id="kpis" aria-live="polite">
+        <p class="loading">Cargando datos…</p>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="share-heading">
+      <h2 id="share-heading">1. Préstamos anuales físicos y digitales de la Biblioteca Pública de Seattle (2006–2025)</h2>
+      <p class="source">Datos completos (todas las transacciones) · <a href="dashboard_data/annual_digital_physical_share.csv">annual_digital_physical_share.csv</a></p>
+      <div id="share-chart" class="chart" role="img" aria-label="Gráfico de líneas de préstamos anuales físicos y digitales entre 2006 y 2025"></div>
+      <p class="finding" id="share-finding"></p>
+      <details class="data-table-toggle">
+        <summary>Ver los datos del gráfico en una tabla</summary>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="Tabla de préstamos anuales físicos y digitales">
+          <table id="share-table"><caption class="visually-hidden">Préstamos anuales por clase, 2006–2025</caption><thead></thead><tbody></tbody></table>
+        </div>
+      </details>
+    </section>
+
+    <section class="card" aria-labelledby="material-heading">
+      <h2 id="material-heading">2. Participación de cada tipo de material en los préstamos de la muestra (2006–2025)</h2>
+      <p class="source">Muestra balanceada (12.500 registros título-mes por año) · <a href="dashboard_data/digital_material_type_shares_by_year.csv">digital</a> · <a href="dashboard_data/physical_material_type_shares_by_year.csv">físico</a></p>
+      <div class="toggle" role="group" aria-label="Elegir clase de préstamo">
+        <button type="button" data-material="digital" aria-pressed="true">Digital</button>
+        <button type="button" data-material="physical" aria-pressed="false">Físico</button>
+      </div>
+      <div id="material-chart" class="chart" role="img" aria-label="Gráfico de barras apiladas con la participación de cada tipo de material por año"></div>
+      <p class="finding" id="material-finding" aria-live="polite" aria-atomic="true"></p>
+      <details class="data-table-toggle">
+        <summary id="material-table-summary">Ver los datos del gráfico en una tabla</summary>
+        <div class="table-scroll" tabindex="0" role="region" aria-labelledby="material-table-summary">
+          <table id="material-table"><caption class="visually-hidden">Porcentaje de préstamos de la muestra por tipo de material y año</caption><thead></thead><tbody></tbody></table>
+        </div>
+      </details>
+    </section>
+
+    <section class="card" aria-labelledby="titles-heading">
+      <h2 id="titles-heading">3. El título más prestado de cada año en la muestra (2006–2025)</h2>
+      <p class="source">Muestra balanceada · <a href="dashboard_data/digital_top_sampled_titles_by_year.csv">digital</a> · <a href="dashboard_data/physical_top_sampled_titles_by_year.csv">físico</a></p>
+      <div class="toggle" role="group" aria-label="Elegir clase de préstamo para la tabla">
+        <button type="button" data-titles="digital" aria-pressed="true">Digital</button>
+        <button type="button" data-titles="physical" aria-pressed="false">Físico</button>
+      </div>
+      <p class="finding" id="titles-finding" aria-live="polite" aria-atomic="true"></p>
+      <div class="table-scroll" tabindex="0" role="region" aria-labelledby="titles-heading">
+        <table id="titles-table">
+          <caption class="visually-hidden">Título con más préstamos en la muestra para cada año</caption>
+          <thead>
+            <tr><th scope="col">Año</th><th scope="col">Título</th><th scope="col">Autor</th><th scope="col">Material</th><th scope="col" class="num">Préstamos</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card notes" aria-labelledby="notes-heading">
+      <h2 id="notes-heading">Cómo leer estos datos</h2>
+      <ul>
+        <li>La sección 1 usa el <strong>archivo agregado completo</strong>: sirve para hablar de volumen total.</li>
+        <li>Las secciones 2 y 3 usan <strong>muestras balanceadas</strong> (el mismo número de registros cada año). Describen la composición de la muestra; no sirven para medir cuántos préstamos hubo.</li>
+        <li>Se usan solo años completos (2006–2025). 2005 empieza en abril y 2026 termina en abril.</li>
+        <li>En 2020 las bibliotecas cerraron por la pandemia: la caída física de ese año no es una tendencia normal.</li>
+      </ul>
+      <p class="source">Fuente: Seattle Open Data, “Checkouts by Title” (tmmm-ytt6). Los CSV se generan con los scripts de <code>dashboard/scripts/</code>; ver <a href="dashboard_data/README.md">dashboard_data/README.md</a>.</p>
+    </section>
+  </main>
+
+  <footer class="wrap site-footer">
+    <p>Proyecto del curso Taller de Python (Uniandes). Análisis con Claude Code; datos del dashboard preparados con subagentes de Antigravity.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
